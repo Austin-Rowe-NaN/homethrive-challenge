@@ -1,0 +1,20 @@
+{
+  "name": "@homethrive-challenge/api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "local-build": "echo TODO - containerize this && sam build",
+    "dev": "echo TODO - containerize this && sam local start-api"
+  },
+  "dependencies": {
+    "esbuild": "0.25.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.92",
+    "@types/node": "^20.5.7",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.9.1",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,14 @@
+# More information about the configuration file can be found here:
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-config.html
+version = 0.1
+
+[default.local_start_api.parameters]
+warm_containers = "EAGER"
+skip_pull_image = true
+port = 8080
+
+# The following section is intentionally set to invalid values to prevent accidental deployment since we will use terraform for deployment.
+[default.deploy.parameters]
+stack_name = "__LOCAL_ONLY_DO_NOT_DEPLOY__"
+s3_bucket = "__INVALID_BUCKET__"
+region = "__STOP_DEPLOYMENT_I_MEAN_IT__"

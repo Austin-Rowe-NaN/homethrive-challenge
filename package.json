@@ -1,0 +1,14 @@
+{
+  "name": "homethrive-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "typescript": "5.9.3"
+  },
+  "packageManager": "yarn@4.9.3"
+}
