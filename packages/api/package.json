@@ -4,7 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "local-build": "echo TODO - containerize this && sam build",
+    "build": "echo TODO - containerize this && sam build",
     "dev": "echo TODO - containerize this && sam local start-api"
   },
   "dependencies": {

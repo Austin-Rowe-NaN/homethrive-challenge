@@ -7,6 +7,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "api:build": "yarn workspace @homethrive-challenge/api build",
+    "api:dev": "yarn workspace @homethrive-challenge/api dev"
+  },
   "devDependencies": {
     "typescript": "5.9.3"
   },
