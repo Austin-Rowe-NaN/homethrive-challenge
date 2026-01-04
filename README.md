@@ -8,4 +8,9 @@
 1. Run `yarn api:build`
 2. Run `yarn api:dev` to start the API server locally
 
+### Local DB
+**From the root of the project**
+- Start local MongoDB instance with `yarn db`
+- Stop local MongoDB instance with `yarn db-stop`
+
 

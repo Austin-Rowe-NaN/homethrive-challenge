@@ -21,6 +21,9 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+      Environment:
+        Variables:
+          MONGODB_URI: "mongodb://host.docker.internal:27017/homethrive-challenge?directConnection=true" # Use host.docker.internal to connect to local MongoDB from Lambda container
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:

@@ -9,7 +9,9 @@
   ],
   "scripts": {
     "api:build": "yarn workspace @homethrive-challenge/api build",
-    "api:dev": "yarn workspace @homethrive-challenge/api dev"
+    "api:dev": "yarn workspace @homethrive-challenge/api dev",
+    "db": "docker compose -f local-db.compose.yml up -d",
+    "db-stop": "docker compose -f local-db.compose.yml down"
   },
   "devDependencies": {
     "typescript": "5.9.3"
