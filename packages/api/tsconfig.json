@@ -10,7 +10,18 @@
       "moduleResolution":"node",
       "esModuleInterop": true, 
       "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": "./",
+      "paths": {
+        "@homethrive-challenge/api/schemas": ["src/db/schemas"],
+        "@homethrive-challenge/api/trpc": ["src/trpc"],
+      }
     },
-    "exclude": ["node_modules", "**/*.test.ts"]
+    "include": ["src"],
+    "exclude": ["node_modules", "**/*.test.ts"],
+    "ts-node": {
+      "require": [
+        "tsconfig-paths/register"
+      ]
+    }
   }

@@ -1,20 +1,7 @@
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import {awsLambdaRequestHandler} from "@trpc/server/adapters/aws-lambda";
+import {appRouter, createContext} from "@homethrive-challenge/api/trpc";
 
-export const helloWorld = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
-    try {
-        return {
-            statusCode: 200,
-            body: JSON.stringify({
-                message: 'hello world!',
-            }),
-        };
-    } catch (err) {
-        console.log(err);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({
-                message: 'some error happened',
-            }),
-        };
-    }
-};
+export const handler = awsLambdaRequestHandler({
+    router: appRouter,
+    createContext
+})
