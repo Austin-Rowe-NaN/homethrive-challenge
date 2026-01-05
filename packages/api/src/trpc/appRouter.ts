@@ -1,13 +1,18 @@
-import { initTRPC } from '@trpc/server';
-import {MedicationModel, zodMedication} from "@homethrive-challenge/api/schemas";
+import {initTRPC} from '@trpc/server';
+import {
+    zodAddCompletedDoseInput,
+    MedicationModel,
+    zodMedication,
+    zodCareRecipientId
+} from "@homethrive-challenge/api/schemas";
 
 export const t = initTRPC.create();
 
 export const appRouter = t.router({
-    getMedications: t.procedure.query(async () => {
+    getCareRecipientMedicationsById: t.procedure.input(zodCareRecipientId).query(async (opts) => {
         try {
-            console.log('Fetching medications...');
-            return MedicationModel.find({})
+            const { input: careRecipientId } = opts;
+            return MedicationModel.find({careRecipientId})
         } catch (e){
             console.error(e);
             throw new Error('Failed to fetch medications');
@@ -20,6 +25,35 @@ export const appRouter = t.router({
         } catch (e){
             console.error(e);
             throw new Error('Failed to create medication');
+        }
+    }),
+    addCompletedDose: t.procedure.input(zodAddCompletedDoseInput).mutation(async (opts) => {
+        try{
+            const { input } = opts;
+            const { medicationId, doseDate } = input;
+            // Add doseDate, ensure uniqueness and ascending order
+            return MedicationModel.findByIdAndUpdate(
+                medicationId,
+                [
+                    {
+                        $set: {
+                            completedDoses: {
+                                $sortArray: {
+                                    input: {
+                                        $setUnion: ["$completedDoses", [doseDate]]
+                                    },
+                                    sortBy: 1
+                                }
+                            }
+                        }
+                    }
+                ],
+                { new: true, updatePipeline: true }
+            );
+        }
+        catch(e){
+            console.error(e);
+            throw new Error('Failed to add completed dose');
         }
     })
 });

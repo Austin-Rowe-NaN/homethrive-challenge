@@ -33,10 +33,13 @@ export const MedicationScheduleSchema = new mongoose.Schema<MedicationSchedule>(
     endDate: { type: Date, required: false },
 }, { _id: false });
 
+export const zodCareRecipientId = z.number();
+
 export const zodMedication = z.object({
     name: z.string().max(256),
     schedule: zodMedicationSchedule,
-    careRecipientId: z.string(),
+    careRecipientId: zodCareRecipientId,
+    completedDoses: z.array(dateStringToDate).optional()
 });
 
 export type Medication = z.infer<typeof zodMedication>;
@@ -45,6 +48,12 @@ export const MedicationModel = mongoose.model('Medication',
     new mongoose.Schema<Medication>({
         name: { type: String, required: true },
         schedule: { type: MedicationScheduleSchema, required: true },
-        careRecipientId: {  type: String, required: true },
+        careRecipientId: {  type: Number, required: true },
+        completedDoses: { type: [Date], required: false, default: [] },
     }, { timestamps: true })
 );
+
+export const zodAddCompletedDoseInput = z.object({
+    medicationId: z.string(),
+    doseDate: dateStringToDate,
+});
