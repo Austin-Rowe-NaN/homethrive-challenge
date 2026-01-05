@@ -7,5 +7,5 @@ export const createContext = async ({
    context,
 }: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>) => {
    await dbConnect()
-} // no context
+}
 export type Context = Awaited<ReturnType<typeof createContext>>;
