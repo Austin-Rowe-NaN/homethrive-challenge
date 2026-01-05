@@ -8,8 +8,7 @@
     "dev": "echo TODO - containerize this && sam local start-api"
   },
   "dependencies": {
-    "esbuild": "0.25.0"
-    "@trpc/server": "^11.8.1",
+    "@trpc/server": "11.8.1",
     "esbuild": "0.25.0",
     "mongoose": "9.1.1",
     "zod": "4.3.5"

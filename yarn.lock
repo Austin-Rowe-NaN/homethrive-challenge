@@ -193,7 +193,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@homethrive-challenge/api@workspace:packages/api"
   dependencies:
-    "@trpc/server": "npm:^11.8.1"
+    "@trpc/server": "npm:11.8.1"
     "@types/aws-lambda": "npm:^8.10.92"
     "@types/node": "npm:^20.5.7"
     esbuild: "npm:0.25.0"
@@ -202,15 +202,6 @@ __metadata:
     ts-node: "npm:^10.9.1"
     typescript: "npm:5.9.3"
     zod: "npm:4.3.5"
-  languageName: unknown
-  linkType: soft
-
-"@homethrive-challenge/common@workspace:^, @homethrive-challenge/common@workspace:packages/common":
-  version: 0.0.0-use.local
-  resolution: "@homethrive-challenge/common@workspace:packages/common"
-  dependencies:
-    typescript: "npm:5.9.3"
-    zod: "npm:4.3.4"
   languageName: unknown
   linkType: soft
 
@@ -247,7 +238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^11.8.1":
+"@trpc/server@npm:11.8.1":
   version: 11.8.1
   resolution: "@trpc/server@npm:11.8.1"
   peerDependencies:
@@ -690,13 +681,6 @@ __metadata:
   version: 3.1.1
   resolution: "yn@npm:3.1.1"
   checksum: 10c0/0732468dd7622ed8a274f640f191f3eaf1f39d5349a1b72836df484998d7d9807fbea094e2f5486d6b0cd2414aad5775972df0e68f8604db89a239f0f4bf7443
-  languageName: node
-  linkType: hard
-
-"zod@npm:4.3.4":
-  version: 4.3.4
-  resolution: "zod@npm:4.3.4"
-  checksum: 10c0/a096102c8b31ecdb913bacb08d5a0fe8447bbe4f54cff421a0c5830a5552da76aae9fd8a01f2e9fdeaae35da1a73762551bc9d14cfedb13a44056de1ed2eb76f
   languageName: node
   linkType: hard
 
