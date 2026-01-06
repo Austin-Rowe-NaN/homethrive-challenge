@@ -66,17 +66,15 @@ export default function App() {
           </Card>
           <Card
             className={cn(
-              "@max-xl/App:w-full @xl/App:basis-1/2 @3xl/App:basis-2/3 @6xl/App:basis-3/4 h-full overflow-y-auto",
+              "@max-xl/App:w-full @xl/App:basis-1/2 @3xl/App:basis-2/3 @6xl/App:basis-3/4 h-full overflow-y-auto @container/MedicationsCard",
               {
                 "@max-xl/App:hidden": mobileView === "medications",
               }
             )}
           >
-            <CardHeader>
+            <CardHeader className="flex justify-between flex-wrap @max-lg/MedicationsCard:justify-center">
               <CardTitle className="text-2xl">Dosage Schedule</CardTitle>
-              <CardAction>
-                <DatePicker defaultDate={new Date()} />
-              </CardAction>
+              <DatePicker defaultDate={new Date()} />
             </CardHeader>
             <CardContent>
               <ItemGroup className="gap-2">
