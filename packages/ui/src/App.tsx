@@ -1,4 +1,4 @@
-import NavBar from "@/components/NavBar.tsx";
+import NavBar from "@/components/navigation/NavBar.tsx";
 import {
   Card,
   CardAction,
@@ -17,22 +17,30 @@ import {
 } from "@/components/ui/item.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { PlusIcon } from "lucide-react";
+import { cn } from "@/lib/utils.ts";
+import { useContext } from "react";
+import { MobileAppViewContext } from "@/contexts/mobile-app-view-context.tsx";
 
 /*
-TODO - Make this mobile friendly
-TODO - Integrate with API
 TODO - Organize into smaller components
+TODO - Integrate with API
  */
 export default function App() {
+  const { mobileView } = useContext(MobileAppViewContext);
+
   return (
-    <div>
+    <div className="h-screen w-screen overflow-hidden @container/App">
       <NavBar />
-      <Button size="icon-lg" className="absolute bottom-10 right-10">
-        <PlusIcon />
-      </Button>
-      <div className="flex justify-center">
-        <div className="flex justify-between container py-6 gap-6">
-          <Card className="max-h-[85vh] overflow-y-auto">
+      <div className="h-[calc(100vh-50px)]">
+        <div className="flex h-full justify-between container mx-auto px-4 py-8 gap-6">
+          <Card
+            className={cn(
+              "h-full overflow-y-auto @max-xl/App:w-full @xl/App:basis-1/2 @3xl/App:basis-1/3 @6xl/App:basis-1/4",
+              {
+                "@max-xl/App:hidden": mobileView === "doses",
+              }
+            )}
+          >
             <CardHeader>
               <CardTitle className="text-2xl">Medications</CardTitle>
               <CardAction>
@@ -46,10 +54,7 @@ export default function App() {
                 {Array(7)
                   .fill(null)
                   .map(() => (
-                    <Item
-                      variant="muted"
-                      className="w-52 py-2 max-w-full min-w-52"
-                    >
+                    <Item variant="muted" className="w-full py-2">
                       <ItemContent>
                         <ItemTitle>Medication Name</ItemTitle>
                         <ItemDescription>Medication Date Range</ItemDescription>
@@ -59,7 +64,14 @@ export default function App() {
               </ItemGroup>
             </CardContent>
           </Card>
-          <Card className="grow">
+          <Card
+            className={cn(
+              "@max-xl/App:w-full @xl/App:basis-1/2 @3xl/App:basis-2/3 @6xl/App:basis-3/4 h-full overflow-y-auto",
+              {
+                "@max-xl/App:hidden": mobileView === "medications",
+              }
+            )}
+          >
             <CardHeader>
               <CardTitle className="text-2xl">Dosage Schedule</CardTitle>
               <CardAction>
