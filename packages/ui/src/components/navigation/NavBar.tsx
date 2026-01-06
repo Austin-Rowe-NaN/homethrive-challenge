@@ -1,4 +1,4 @@
-import {ModeToggle} from "@/components/ThemeToggle.tsx";
+import {ModeToggle} from "@/components/theme/ThemeToggle.tsx";
 import {MobileNav} from "@/components/navigation/MobileNav.tsx";
 
 export default function NavBar() {

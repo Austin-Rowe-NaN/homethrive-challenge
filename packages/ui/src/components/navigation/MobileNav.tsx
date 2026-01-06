@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button"
 import {Sheet, SheetContent, SheetTrigger,} from "@/components/ui/sheet"
 import { Menu } from 'lucide-react';
-import {ModeToggle} from "@/components/ThemeToggle.tsx";
+import {ModeToggle} from "@/components/theme/ThemeToggle.tsx";
 import {useContext, useState} from "react";
 import {MobileAppViewContext} from "@/contexts/mobile-app-view-context.tsx";
 import {cn} from "@/lib/utils.ts";
