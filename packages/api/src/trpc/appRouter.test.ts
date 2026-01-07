@@ -4,6 +4,7 @@ import {
     MedicationModel,
 } from "@homethrive-challenge/api/schemas";
 import {Recurrence} from "@homethrive-challenge/api/types";
+import { normalizeDate } from "@homethrive-challenge/api/utils";
 
 vi.mock("@homethrive-challenge/api/schemas", async (importOriginal) => {
     const originalModule: any = await importOriginal();
@@ -97,22 +98,26 @@ describe('appRouter', () => {
             const result = await appRouterCaller.addCompletedDose(mockInput);
 
             expect(MedicationModel.findByIdAndUpdate).toHaveBeenCalledWith(
-                mockInput.medicationId,
-                [
-                    {
-                        $set: {
-                            completedDoses: {
-                                $sortArray: {
-                                    input: {
-                                        $setUnion: ["$completedDoses", [new Date(mockInput.doseDate)]] // once again, important that date string is converted to Date object
-                                    },
-                                    sortBy: 1
-                                }
-                            }
-                        }
-                    }
-                ],
-                { new: true, updatePipeline: true });
+              mockInput.medicationId,
+              [
+                {
+                  $set: {
+                    completedDoses: {
+                      $sortArray: {
+                        input: {
+                          $setUnion: [
+                            "$completedDoses",
+                            [normalizeDate(new Date(mockInput.doseDate))],
+                          ], // once again, important that date string is converted to Date object
+                        },
+                        sortBy: 1,
+                      },
+                    },
+                  },
+                },
+              ],
+              { new: true, updatePipeline: true }
+            );
             expect(result).toEqual(mockUpdated);
         })
     })
