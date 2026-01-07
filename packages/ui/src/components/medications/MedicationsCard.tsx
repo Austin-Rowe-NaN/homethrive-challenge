@@ -10,13 +10,15 @@ import { PlusIcon } from "lucide-react";
 import {
   Item,
   ItemContent,
-  ItemDescription,
   ItemGroup,
   ItemTitle,
 } from "@/components/ui/item.tsx";
 import { trpc } from "@/utils/trpc.ts";
 import { useQuery } from "@tanstack/react-query";
-import {formatMedicationDateRange, formatMedicationDoseInstructions} from "@/utils/format.ts";
+import {
+  formatMedicationDateRange,
+  formatMedicationDoseInstructions,
+} from "@/utils/format.ts";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 
 export default function MedicationsCard() {
@@ -50,13 +52,19 @@ export default function MedicationsCard() {
             <ItemGroup className="gap-2">
               {data && data.length > 0 && !isFetching
                 ? data.map((medication) => (
-                    <Item variant="muted" className="w-full py-2">
+                    <Item
+                      variant="muted"
+                      className="w-full py-2"
+                      key={medication.name}
+                    >
                       <ItemContent>
                         <ItemTitle>{medication.name}</ItemTitle>
-                        <ItemDescription className="text-xs">
-                            <div>{formatMedicationDateRange(medication)}</div>
-                            <div>{formatMedicationDoseInstructions(medication)}</div>
-                        </ItemDescription>
+                        <div className="text-xs text-muted-foreground">
+                          <div>{formatMedicationDateRange(medication)}</div>
+                          <div>
+                            {formatMedicationDoseInstructions(medication)}
+                          </div>
+                        </div>
                       </ItemContent>
                     </Item>
                   ))
