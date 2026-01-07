@@ -31,7 +31,7 @@ export const generateSingleMedicationDoseForDate = (
   // given date does not match days of week for weekly medications
   if (
     medication.schedule.daysOfWeek &&
-    !medication.schedule.daysOfWeek.includes(DateTime.fromJSDate(date).day)
+    !medication.schedule.daysOfWeek.includes(DateTime.fromJSDate(date).weekday)
   )
     return null;
 
