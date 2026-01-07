@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/item.tsx";
 import { trpc } from "@/utils/trpc.ts";
 import { useQuery } from "@tanstack/react-query";
-import { formatMedicationDateRange } from "@/utils/format.ts";
+import {formatMedicationDateRange, formatMedicationDoseInstructions} from "@/utils/format.ts";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 
 export default function MedicationsCard() {
@@ -54,7 +54,8 @@ export default function MedicationsCard() {
                       <ItemContent>
                         <ItemTitle>{medication.name}</ItemTitle>
                         <ItemDescription className="text-xs">
-                          {formatMedicationDateRange(medication)}
+                            <div>{formatMedicationDateRange(medication)}</div>
+                            <div>{formatMedicationDoseInstructions(medication)}</div>
                         </ItemDescription>
                       </ItemContent>
                     </Item>
@@ -64,8 +65,9 @@ export default function MedicationsCard() {
                     .map(() => (
                       <Item variant="muted" className="w-full py-2">
                         <ItemContent>
-                          <Skeleton className="w-1/3 h-6" />
-                          <Skeleton className="w-3/4 h-4" />
+                          <Skeleton className="w-1/3 h-5" />
+                          <Skeleton className="w-3/4 h-3.5" />
+                          <Skeleton className="w-1/2 h-3.5" />
                         </ItemContent>
                       </Item>
                     ))}
