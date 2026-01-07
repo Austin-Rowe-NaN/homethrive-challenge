@@ -13,12 +13,13 @@ import { Button } from "@/components/ui/button.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc.ts";
 import { DateTime } from "luxon";
-import { useMemo } from "react";
+import {useMemo, useState} from "react";
 import { formatHour } from "@/utils/format.ts";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import {Check} from "lucide-react";
 
 export default function DosesCard() {
+    const [doseScheduleDate, setDoseScheduleDate] = useState<Date | undefined>(new Date());
   const {
     isFetching: isFetchingMedications,
     data: medications,
@@ -33,15 +34,16 @@ export default function DosesCard() {
     isFetching: isFetchingDoses,
     data: doses,
     error: dosesFetchError,
-  } = useQuery(
+  } = useQuery( // TODO - fix cache behavior when changing date
     trpc.getCareRecipientDosesForGivenDate.queryOptions(
       {
         careRecipientId: 2193,
-        date: DateTime.now().startOf("day").toISO(),
+        date: DateTime.fromJSDate(doseScheduleDate!).startOf("day").toISO(),
       },
       {
         refetchOnWindowFocus: false,
         retry: 3,
+        enabled: doseScheduleDate !== undefined
       }
     )
   );
@@ -76,7 +78,7 @@ export default function DosesCard() {
       cardHeader={
         <CardHeader className="flex justify-between flex-wrap @max-lg/MedicationsCard:justify-center">
           <CardTitle className="text-2xl">Dosage Schedule</CardTitle>
-          <DatePicker defaultDate={new Date()} />
+          <DatePicker date={doseScheduleDate} setDate={setDoseScheduleDate}/>
         </CardHeader>
       }
       cardContent={
@@ -121,8 +123,8 @@ export default function DosesCard() {
                       className="w-full py-2 flex justify-between"
                     >
                       <div className="grow">
-                        <Skeleton className="w-1/4 h-9" />
-                        <Skeleton className="w-1/2 h-6" />
+                        <Skeleton className="w-1/4 h-6 mb-1" />
+                        <Skeleton className="w-1/2 h-4" />
                       </div>
                       <Skeleton className="w-20 h-8" />
                     </Item>

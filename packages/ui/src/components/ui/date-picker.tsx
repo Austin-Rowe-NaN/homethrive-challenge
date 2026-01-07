@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {type Dispatch, type SetStateAction} from "react";
 import { DateTime } from "luxon";
 import {
   Calendar as CalendarIcon,
@@ -14,8 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({ defaultDate }: { defaultDate?: Date }) {
-  const [date, setDate] = useState<Date | undefined>(defaultDate);
+export function DatePicker({ date, setDate }: { date: Date | undefined; setDate: Dispatch<SetStateAction<Date | undefined>> }) {
 
   return (
     <Popover>
