@@ -1,22 +1,37 @@
 import { initTRPC } from "@trpc/server";
 import {
-  zodAddCompletedDoseInput,
+  zodAddCompletedDoseInputApiOnly,
   MedicationModel,
-  zodMedication,
-  zodCareRecipientId,
-  zodGetCareRecipientDoses,
+  zodMedicationApiOnly,
+  zodGetCareRecipientDosesApiOnly,
 } from "@homethrive-challenge/api/schemas";
 import {
   generateSingleMedicationDoseForDate,
   normalizeDate,
 } from "@homethrive-challenge/api/utils";
 import { Dose } from "@homethrive-challenge/api/types";
+import { zodCareRecipientIdCommon } from "@homethrive-challenge/api/ui-safe-validator-types";
+import { z, ZodError } from "zod";
 
-export const t = initTRPC.create();
+export const t = initTRPC.create({
+  errorFormatter(opts) {
+    const { shape, error } = opts;
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+            ? error.cause.flatten()
+            : null,
+      },
+    };
+  },
+});
 
 export const appRouter = t.router({
   getCareRecipientMedicationsById: t.procedure
-    .input(zodCareRecipientId)
+    .input(zodCareRecipientIdCommon)
     .query(async (opts) => {
       try {
         const { input: careRecipientId } = opts;
@@ -27,7 +42,7 @@ export const appRouter = t.router({
       }
     }),
   getCareRecipientDosesForGivenDate: t.procedure
-    .input(zodGetCareRecipientDoses)
+    .input(zodGetCareRecipientDosesApiOnly)
     .query(async (opts): Promise<Dose[]> => {
       const {
         input: { careRecipientId, date: passedDate },
@@ -40,7 +55,7 @@ export const appRouter = t.router({
           { "schedule.endDate": { $gte: date } },
           { "schedule.endDate": { $exists: false } },
         ],
-      }).lean();
+      } as Record<string, unknown>).lean();
 
       return medicationsWithinDate
         .map((med) => generateSingleMedicationDoseForDate(med, date))
@@ -53,18 +68,20 @@ export const appRouter = t.router({
             )
         ) as unknown as Dose[];
     }),
-  createMedication: t.procedure.input(zodMedication).mutation(async (opts) => {
-    try {
-      const { input } = opts;
-      const newMedication = await MedicationModel.create(input);
-      return newMedication.toObject();
-    } catch (e) {
-      console.error(e);
-      throw new Error("Failed to create medication");
-    }
-  }),
+  createMedication: t.procedure
+    .input(zodMedicationApiOnly)
+    .mutation(async (opts) => {
+      try {
+        const { input } = opts;
+        const newMedication = await MedicationModel.create(input);
+        return newMedication.toObject();
+      } catch (e) {
+        console.error(e);
+        throw new Error("Failed to create medication");
+      }
+    }),
   addCompletedDose: t.procedure
-    .input(zodAddCompletedDoseInput)
+    .input(zodAddCompletedDoseInputApiOnly)
     .mutation(async (opts) => {
       try {
         const { input } = opts;

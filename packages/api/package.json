@@ -45,6 +45,18 @@
         "./src/db/schemas/index.ts",
         "./src/db/schemas/index.js"
       ]
+    },
+    "./trpc": {
+      "default": [
+        "./src/trpc/index.ts",
+        "./src/trpc/index.js"
+      ]
+    },
+    "./ui-safe-validator-types": {
+      "default": [
+        "./src/ui-safe-validator-types/index.ts",
+        "./src/ui-safe-validator-types/index.js"
+      ]
     }
   }
 }
