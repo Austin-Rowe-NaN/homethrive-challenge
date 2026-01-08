@@ -124,3 +124,24 @@ across all breakpoints and built with a focus on simplicity and usability.
         - Some plugins/loaders may not be available or fully compatible
 
 
+
+### TODO
+- ~~Add API routes for full medication mgmt functionality~~
+  - ~~Create medication w/ schedule~~
+  - ~~Read medication(s)~~
+  - ~~Mark dosage as taken~~
+  - ~~Mark medication as inactive~~
+- ~~Add API unit tests~~
+- ~~Add UI to view/manage medications~~
+  - ~~View list of medications~~
+  - ~~View upcoming dosages~~
+    - ~~Ability to mark as taken~~
+  - ~~Add medication w/ schedule~~
+- ~~Document decisions/tradeoffs~~
+
+#### Maybe next time 🤷‍♂️
+- Add prettier/eslint across the monorepo
+- Extract hardcoded magic numbers/strings/etc
+- Add CI/CD (GitHub Actions)
+- Add `/infra` package for IaC (e.g., Terraform/Pulumi)
+
