@@ -30,6 +30,7 @@ across all breakpoints and built with a focus on simplicity and usability.
 1. Run `corepack enable`
    - This enables the required `yarn` version
 2. Run `yarn install`
+3. Ensure Docker Desktop is running
 
 ## Local API
 **From the root of the project**
