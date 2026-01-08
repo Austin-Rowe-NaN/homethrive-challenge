@@ -4,8 +4,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "build": "echo TODO - containerize this && sam build",
-    "dev": "echo TODO - containerize this && sam local start-api"
+    "build": "sam build",
+    "dev": "sam local start-api"
   },
   "dependencies": {
     "@trpc/server": "11.8.1",
