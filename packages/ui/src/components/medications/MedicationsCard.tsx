@@ -5,8 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { PlusIcon } from "lucide-react";
 import {
   Item,
   ItemContent,
@@ -20,6 +18,7 @@ import {
   formatMedicationDoseInstructions,
 } from "@/utils/format.ts";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import MedicationsCreationModal from "@/components/medications/creation/MedicationsCreationModal.tsx";
 
 export default function MedicationsCard() {
   const { isFetching, data, error } = useQuery(
@@ -36,9 +35,7 @@ export default function MedicationsCard() {
         <CardHeader>
           <CardTitle className="text-2xl">Medications</CardTitle>
           <CardAction>
-            <Button size="icon-sm">
-              <PlusIcon />
-            </Button>
+            <MedicationsCreationModal />
           </CardAction>
         </CardHeader>
       }
@@ -50,8 +47,13 @@ export default function MedicationsCard() {
             </div>
           ) : (
             <ItemGroup className="gap-2">
-              {data && data.length > 0 && !isFetching
-                ? data.map((medication) => (
+              {!isFetching ? (
+                !data || data.length === 0 ? (
+                  <div className="text-muted-foreground text-center w-full py-4">
+                    No medications found.
+                  </div>
+                ) : (
+                  data.map((medication) => (
                     <Item
                       variant="muted"
                       className="w-full py-2"
@@ -68,17 +70,20 @@ export default function MedicationsCard() {
                       </ItemContent>
                     </Item>
                   ))
-                : Array(7)
-                    .fill(null)
-                    .map(() => (
-                      <Item variant="muted" className="w-full py-2">
-                        <ItemContent>
-                          <Skeleton className="w-1/3 h-5" />
-                          <Skeleton className="w-3/4 h-3.5" />
-                          <Skeleton className="w-1/2 h-3.5" />
-                        </ItemContent>
-                      </Item>
-                    ))}
+                )
+              ) : (
+                Array(7)
+                  .fill(null)
+                  .map(() => (
+                    <Item variant="muted" className="w-full py-2">
+                      <ItemContent>
+                        <Skeleton className="w-1/3 h-5" />
+                        <Skeleton className="w-3/4 h-3.5" />
+                        <Skeleton className="w-1/2 h-3.5" />
+                      </ItemContent>
+                    </Item>
+                  ))
+              )}
             </ItemGroup>
           )}
         </CardContent>
