@@ -7,7 +7,7 @@ export const zodMedicationScheduleCommon = z
   .object({
     recurrence: z.enum(Recurrence),
     timeOfDay: z.number().min(0).max(23),
-    daysOfWeek: z.array(z.number().int().min(1).max(6)).optional(),
+    daysOfWeek: z.array(z.number().int()).min(1).max(6).optional(),
     startDate: z.iso.date(),
     endDate: z.iso.date().optional(),
   })
