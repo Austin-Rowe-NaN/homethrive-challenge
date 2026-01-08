@@ -2,9 +2,6 @@ import NavBar from "@/components/navigation/NavBar.tsx";
 import DosesCard from "@/components/doses/DosesCard.tsx";
 import MedicationsCard from "@/components/medications/MedicationsCard.tsx";
 
-/*
-TODO - Integrate with API
- */
 export default function App() {
 
   return (
