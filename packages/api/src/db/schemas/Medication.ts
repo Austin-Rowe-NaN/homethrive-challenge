@@ -1,58 +1,51 @@
 import { z } from "zod";
 import mongoose from "mongoose";
-import { Recurrence } from "@homethrive-challenge/api";
+import { Recurrence } from "@homethrive-challenge/api/types";
 import { normalizeDate } from "@homethrive-challenge/api/utils";
+import {
+  zodAddCompletedDoseInputCommon,
+  zodGetCareRecipientDosesCommon,
+  zodMedicationCommon,
+  zodMedicationScheduleCommon,
+} from "@homethrive-challenge/api/ui-safe-validator-types";
 
 const dateStringToDate = z.preprocess(
-  (arg) => (typeof arg === "string" ? normalizeDate(arg) : arg),
+  (arg) =>
+    typeof arg === "string" || arg instanceof Date ? normalizeDate(arg) : arg,
   z.date()
 );
 
-export const zodMedicationSchedule = z
-  .object({
-    recurrence: z.enum(Recurrence),
-    timeOfDay: z.number().min(0).max(23),
-    daysOfWeek: z.array(z.number().int().min(1).max(7)).optional(),
-    startDate: dateStringToDate,
-    endDate: dateStringToDate.optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.recurrence === Recurrence.WEEKLY && !data.daysOfWeek) {
-      ctx.addIssue({
-        code: "custom",
-        message: "daysOfWeek is required when recurrence is WEEKLY",
-        path: ["daysOfWeek"],
-      });
-    }
-  });
+export const zodMedicationScheduleApiOnly = z.object({
+  ...zodMedicationScheduleCommon.shape,
+  startDate: dateStringToDate,
+  endDate: dateStringToDate.optional(),
+});
 
-export type MedicationSchedule = z.infer<typeof zodMedicationSchedule>;
+export type MedicationScheduleApiOnly = z.infer<
+  typeof zodMedicationScheduleApiOnly
+>;
 
-export const MedicationScheduleSchema = new mongoose.Schema<MedicationSchedule>(
-  {
-    recurrence: { type: String, enum: Recurrence, required: true },
-    timeOfDay: { type: Number, required: true },
-    daysOfWeek: { type: [Number], required: false, default: undefined },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: false },
-  },
-  { _id: false }
-);
+export const MedicationScheduleSchema =
+  new mongoose.Schema<MedicationScheduleApiOnly>(
+    {
+      recurrence: { type: String, enum: Recurrence, required: true },
+      timeOfDay: { type: Number, required: true },
+      daysOfWeek: { type: [Number], required: false, default: undefined },
+      startDate: { type: Date, required: true },
+      endDate: { type: Date, required: false },
+    },
+    { _id: false }
+  );
 
-export const zodCareRecipientId = z.number();
-
-export const zodMedication = z.object({
-  name: z.string().max(256),
-  schedule: zodMedicationSchedule,
-  careRecipientId: zodCareRecipientId,
+export const zodMedicationApiOnly = zodMedicationCommon.extend({
   completedDoses: z.array(dateStringToDate).optional(),
 });
 
-export type Medication = z.infer<typeof zodMedication>;
+export type MedicationApiOnly = z.infer<typeof zodMedicationApiOnly>;
 
 export const MedicationModel = mongoose.model(
   "Medication",
-  new mongoose.Schema<Medication>(
+  new mongoose.Schema<MedicationApiOnly>(
     {
       name: { type: String, required: true },
       schedule: { type: MedicationScheduleSchema, required: true },
@@ -63,12 +56,12 @@ export const MedicationModel = mongoose.model(
   )
 );
 
-export const zodGetCareRecipientDoses = z.object({
-  careRecipientId: zodCareRecipientId,
-  date: dateStringToDate,
-});
+export const zodGetCareRecipientDosesApiOnly =
+  zodGetCareRecipientDosesCommon.extend({
+    date: dateStringToDate,
+  });
 
-export const zodAddCompletedDoseInput = z.object({
-  medicationId: z.string(),
-  doseDate: dateStringToDate,
-});
+export const zodAddCompletedDoseInputApiOnly =
+  zodAddCompletedDoseInputCommon.extend({
+    doseDate: dateStringToDate,
+  });

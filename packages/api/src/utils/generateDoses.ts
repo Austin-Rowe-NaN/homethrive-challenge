@@ -1,11 +1,11 @@
-import { Medication } from "@homethrive-challenge/api/schemas";
+import { MedicationApiOnly } from "@homethrive-challenge/api/schemas";
 import { DateTime } from "luxon";
 import { Types } from "mongoose";
 import { Dose } from "@homethrive-challenge/api/types";
 import { normalizeDate } from "@homethrive-challenge/api/utils/normalize-date";
 
 export const generateSingleMedicationDoseForDate = (
-  medication: Medication & { _id: Types.ObjectId },
+  medication: MedicationApiOnly & { _id: Types.ObjectId },
   passedDate: Date
 ): Dose | null => {
   const date = normalizeDate(passedDate);
