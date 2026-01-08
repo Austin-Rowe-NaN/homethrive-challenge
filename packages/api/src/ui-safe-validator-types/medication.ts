@@ -36,6 +36,7 @@ export const zodMedicationCommon = z.object({
   schedule: zodMedicationScheduleCommon,
   careRecipientId: zodCareRecipientIdCommon,
   completedDoses: z.array(z.iso.date()).optional(),
+  inactive: z.boolean().optional(),
 });
 
 export type MedicationCommon = z.infer<typeof zodMedicationCommon>;

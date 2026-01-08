@@ -51,6 +51,7 @@ export const MedicationModel = mongoose.model(
       schedule: { type: MedicationScheduleSchema, required: true },
       careRecipientId: { type: Number, required: true },
       completedDoses: { type: [Date], required: false, default: [] },
+      inactive: { type: Boolean, required: false, default: false },
     },
     { timestamps: true }
   )

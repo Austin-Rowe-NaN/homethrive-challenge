@@ -35,7 +35,11 @@ export const appRouter = t.router({
     .query(async (opts) => {
       try {
         const { input: careRecipientId } = opts;
-        return MedicationModel.find({ careRecipientId }).lean();
+        const meds = await MedicationModel.find({ careRecipientId }).lean();
+        return meds.sort((a) => {
+          if (a.inactive) return 1;
+          return -1;
+        });
       } catch (e) {
         console.error(e);
         throw new Error("Failed to fetch medications");
@@ -59,14 +63,19 @@ export const appRouter = t.router({
 
       return medicationsWithinDate
         .map((med) => generateSingleMedicationDoseForDate(med, date))
-        .filter(
-          (medicationDose) =>
-            !!(
-              medicationDose &&
-              normalizeDate(medicationDose.doseDate).toString() ===
-                date.toString()
-            )
-        ) as unknown as Dose[];
+        .filter((medicationDose) => {
+          const medication = medicationsWithinDate.find(
+            (med) => med._id.toString() === medicationDose?.medicationId
+          );
+          // filter only uncompleted doses for inactive medications
+          // we still want to show completed doses even if the medication is inactive
+          if (medication?.inactive && !medicationDose?.completed) return false;
+          return !!(
+            medicationDose &&
+            normalizeDate(medicationDose.doseDate).toString() ===
+              date.toString()
+          );
+        }) as unknown as Dose[];
     }),
   createMedication: t.procedure
     .input(zodMedicationApiOnly)
@@ -108,6 +117,21 @@ export const appRouter = t.router({
       } catch (e) {
         console.error(e);
         throw new Error("Failed to add completed dose");
+      }
+    }),
+  markMedicationInactive: t.procedure
+    .input(z.string())
+    .mutation(async (opts) => {
+      try {
+        const { input: medicationId } = opts;
+        return MedicationModel.findByIdAndUpdate(
+          medicationId,
+          { inactive: true },
+          { new: true, lean: true }
+        );
+      } catch (e) {
+        console.error(e);
+        throw new Error("Failed to mark medication inactive");
       }
     }),
 });
