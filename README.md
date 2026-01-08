@@ -144,4 +144,6 @@ across all breakpoints and built with a focus on simplicity and usability.
 - Extract hardcoded magic numbers/strings/etc
 - Add CI/CD (GitHub Actions)
 - Add `/infra` package for IaC (e.g., Terraform/Pulumi)
+- Add actual authentication/authorization
+- Add real care recipient context to UI
 
