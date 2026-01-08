@@ -39,6 +39,7 @@ export const MedicationScheduleSchema =
 
 export const zodMedicationApiOnly = zodMedicationCommon.extend({
   completedDoses: z.array(dateStringToDate).optional(),
+  schedule: zodMedicationScheduleApiOnly,
 });
 
 export type MedicationApiOnly = z.infer<typeof zodMedicationApiOnly>;
