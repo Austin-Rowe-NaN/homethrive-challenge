@@ -138,6 +138,9 @@ across all breakpoints and built with a focus on simplicity and usability.
     - ~~Ability to mark as taken~~
   - ~~Add medication w/ schedule~~
 - ~~Document decisions/tradeoffs~~
+- **Move all zod validation logic to a new workspace @packages/common**
+  - Test zod validations there and mock in packages/api tests
+- Enhance error handling for form submissions and failed data fetching
 
 #### Maybe next time 🤷‍♂️
 - Add prettier/eslint across the monorepo
