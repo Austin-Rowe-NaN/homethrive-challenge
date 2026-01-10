@@ -1,5 +1,6 @@
 # Table of Contents
 - [Overview](#overview)
+  - [Notes to Reviewers](#notes-to-reviewers)
 - [Prerequisites](#prerequisites)
 - [Running Locally](#running-locally)
   - [Initialization](#initialization)
@@ -13,6 +14,30 @@
 This is a simple medication management application designed to help
 users keep track of their medications and scheduled dosages. It's responsive 
 across all breakpoints and built with a focus on simplicity and usability.
+
+## Notes to Reviewers
+- Things I prioritized:
+  - Type safety between client and server
+    - tRPC + zod was used to achieve this
+  - Developer experience
+    - Monorepo with yarn workspaces
+    - Tanstack Query/Form for data fetching and form management
+    - TailwindCSS + shadcn/ui for rapid UI development
+    - Vite for fast dev server and builds
+    - Containerized local DB for easy setup
+    - Clear documentation
+    - Simple scripts for development (everything can be run from the root with simple yarn commands)
+- Things I would change with more time:
+  - **Move shared zod validation logic to a common package**
+    - After doing this, I would make `packages/api` only export the `AppRouter` type 
+      - This is important to avoid potentially leaking server only logic to the client
+  - More robust error handling and user feedback in the UI
+  - More comprehensive unit tests for the API
+  - Add CI/CD pipeline for automated testing and deployment
+  - Implement real authentication/authorization
+  - Add infrastructure as code for deploying to a cloud provider
+  - Cleanup/enhance the caching strategy with Tanstack Query
+  - Add prettier/eslint for consistent code style across the monorepo
 
 # Prerequisites
 - `node >=22.0.0`
